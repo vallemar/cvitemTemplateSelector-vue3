@@ -1,57 +1,94 @@
 <script lang="ts" setup>
-import {
-  ref,
-  computed,
-  onMounted,
-  onUnmounted,
-  $navigateTo,
-} from 'nativescript-vue';
-import Details from './Details.vue';
-
-const counter = ref(0);
-const message = computed(() => {
-  return `Blank {N}-Vue app: ${counter.value}`;
-});
-
-function logMessage() {
-  console.log('You have tapped the message!');
+const items = [
+  { id: 1, msg: "1" },
+  { id: 2, msg: "2" },
+  { id: 3, msg: "3" },
+  { id: 4, msg: "4" },
+  { id: 5, msg: "5" },
+  { id: 6, msg: "6" },
+  { id: 7, msg: "7" },
+  { id: 8, msg: "8" },
+  { id: 9, msg: "9" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+  { id: 10, msg: "10" },
+];
+function itemTemplate(args: any) {
+  return args.item.id % 2 === 0 ? "even" : "odd";
 }
-
-let interval: any;
-onMounted(() => {
-  console.log('mounted');
-  interval = setInterval(() => counter.value++, 100);
-});
-
-onUnmounted(() => {
-  console.log('unmounted');
-  clearInterval(interval);
-});
 </script>
 
 <template>
   <Frame>
     <Page>
       <ActionBar>
-        <Label text="Home" class="font-bold text-lg" />
+        <Label text="Home" />
       </ActionBar>
 
-      <GridLayout rows="*, auto, auto, *" class="px-4">
-        <Label
+      <GridLayout>
+        <CollectionView
           row="1"
-          class="text-xl align-middle text-center text-gray-500"
-          :text="message"
-          @tap="logMessage"
-        />
-
-        <Button
-          row="2"
-          @tap="$navigateTo(Details)"
-          class="mt-4 px-4 py-2 bg-white border-2 border-blue-400 rounded-lg"
-          horizontalAlignment="center"
+          ref="collectionView"
+          :items="items"
+          height="100%"
+          :itemTemplateSelector="itemTemplate"
         >
-          View Details
-        </Button>
+          <template #even="{ item }">
+            <GridLayout class="" marginTop="120">
+              <Label
+                col="1"
+                horizontalAlignment="left"
+                textWrap="true"
+                :text="'even left ' + item.msg"
+              >
+              </Label>
+            </GridLayout>
+          </template>
+          <template #odd="{ item }">
+            <GridLayout class="" marginTop="120">
+              <Label
+                col="1"
+                horizontalAlignment="right"
+                textWrap="true"
+                :text="'odd right ' + item.msg"
+              >
+              </Label>
+            </GridLayout>
+          </template>
+        </CollectionView>
       </GridLayout>
     </Page>
   </Frame>
